@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+} */
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+} */
+
+body {
+  height: 100vh;
+  background: #ffffff;
+}
+
+.gradient-bkg {
+    background: radial-gradient(263.81% 740.81% at 8.26% 22.95%, #580A96 0%, #1F0062 26.04%, #18004D 47.86%, #0B0024 94.79%)
+}
+
+h1, h2, p, span {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.cta-button {
+  position: relative;
+  background: #E12F6A;
+}
+.cta-button::after {
+  content: '>';
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 12px;
+  color: #ffffff;
+}
+.cta-button span {
+  color: #ffffff;
+}
+
+.error {
+  color: #E12F6A;
+}
