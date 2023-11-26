@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 import { createStory } from '../api/opeanai'
 import { StoryContext } from '../contexts/StoryContext'
@@ -8,15 +9,32 @@ const minChars = 20
 
 interface StoryFormType {
   className: string;
+  handleCloseLoading: Function;
+  handleRouting: Function;
 }
 
 const StoryForm = (formInfo: StoryFormType) => {
-  const { className } = formInfo
-  const { updatePrompt } = useContext(StoryContext)
+  const router = useRouter()
+
+  const { className, handleCloseLoading, handleRouting } = formInfo
+  const {
+    updatePrompt,
+    updateStories,
+    stories
+  } = useContext(StoryContext)
 
   const [tempPrompt, setTempPrompt] = useState<string>('')
   const [error, setError] = useState<string>('')
 
+  useEffect(() => {
+    if(stories?.length) {
+      handleCloseLoading(false)
+      const lastStory = stories[0]
+      localStorage.setItem('stories', JSON.stringify({stories}))
+
+      handleRouting(`/story/${lastStory?.titleHyphenated}`)
+    }
+  }, [stories])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -25,8 +43,15 @@ const StoryForm = (formInfo: StoryFormType) => {
 
     if(tempPrompt.length > minChars) {
       setError('')
-      const story = await createStory({prompt: tempPrompt, sessionToken: 'undefined'})
-      console.log('story', story)
+
+      handleCloseLoading(true)
+
+      const storyObj = await createStory({prompt: tempPrompt, sessionToken: 'undefined'})
+      
+      updateStories({
+        prompt: tempPrompt,
+        ...storyObj // { title, titleHyphenated, content } 
+      })
     } else {
       setError(`Please provide a prompt longer than ${minChars} characters`)
     }
