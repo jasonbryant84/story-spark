@@ -9,7 +9,7 @@ const openai: OpenAI = new OpenAI({ // OpenAI
     apiKey: OPENAI_API_KEY, // defaults to process.env["OPENAI_API_KEY"]
 })
 
-const path = require('path')
+const timeout = require('connect-timeout')
 const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 3001
@@ -37,7 +37,7 @@ app.get('/healthcheck', cors(), async (req: express.Request, res: express.Respon
     res.json({ success: true })
 })
 
-app.post('/api/create-session', cors(), async (req: express.Request, res: express.Response) => {
+app.post('/api/create-session', timeout('5m'), cors(), async (req: express.Request, res: express.Response) => {
     const sessionToken = await createSession()
     res.json({ sessionToken })
 })
