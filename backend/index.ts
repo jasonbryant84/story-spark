@@ -15,7 +15,7 @@ const app = express()
 const port = process.env.PORT || 3001
 
 // Utils
-import { createSession, parseStory, downloadImage } from '../utils'
+import { createSession, parseStory, downloadImage } from './utils'
 
 // Middleware
 app.use(express.json())
