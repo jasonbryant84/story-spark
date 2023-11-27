@@ -1,6 +1,6 @@
 interface StoryType {
     prompt: string;
-    sessionToken?: string
+    user: any; // UserType
 }
 
 function wait(seconds: number) {
@@ -8,26 +8,23 @@ function wait(seconds: number) {
 }
 
 export const createStory = async (storyInfo: StoryType) => {
-    const { prompt, sessionToken } = storyInfo
+    const { prompt, user } = storyInfo
 
-    const { BACKEND_HOST, BACKEND_PORT } = process.env
-    const uri = `${BACKEND_HOST}:${BACKEND_PORT}/api`
-    console.log(`${BACKEND_HOST}:${BACKEND_PORT}/api`, process.env.REACT_APP_BACKEND_PORT)
+    const host = process.env.NEXT_PUBLIC_BACKEND_HOST
+    const port = process.env.NEXT_PUBLIC_BACKEND_PORT
 
-    // await wait(3)
-    // return storyExample
     
-    if (sessionToken) {
-        return await fetch(`//127.0.0.1:3001/api/create-story`, {
+    if (user?.sessionToken) {
+        return await fetch(`${host}:${port}/api/create-story`, {
             method: 'POST', // Change from GET to POST
             headers: {
                 'Content-Type': 'application/json',
-                Cookie: `SESSION_TOKEN=${sessionToken}`,
+                Cookie: `SESSION_TOKEN=${user?.sessionToken}`,
             },
-            body: JSON.stringify({ prompt, sessionToken }),
+            body: JSON.stringify({ prompt, user }),
             }).then(async (resp) => {
                 return await resp.json();
-            });// error condition needs handling
+            })// error condition needs handling
     }
     
     return {

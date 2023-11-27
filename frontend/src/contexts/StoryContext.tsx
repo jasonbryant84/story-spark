@@ -13,6 +13,8 @@ export interface StoryType {
 export interface StoryContextType {
   prompt: string;
   updatePrompt: Function;
+  currentStory: StoryType | null;
+  updateCurrentStory: Function;
   stories: StoryType[];
   updateStories: Function;
 }
@@ -20,6 +22,8 @@ export interface StoryContextType {
 export const StoryContext = createContext<StoryContextType>({
   prompt: '',
   updatePrompt: (prompt: string) => {},
+  currentStory: null,
+  updateCurrentStory: (story: StoryType) => {},
   stories: [],
   updateStories: (newStory: StoryType) => {}
 });
@@ -38,7 +42,7 @@ const StoryContextProvider = ({
       setPrompt(prompt);
   };
 
-  // Story
+  // Stories
   const [stories, setStories] = useState<StoryType[]>([]),
   updateStories = (newStory: StoryType) => {
     const isNewStory = stories.filter(currStory => currStory.title === newStory.title).length === 0
@@ -48,11 +52,20 @@ const StoryContextProvider = ({
     }
   };
 
+  // CurrentStory
+  const [currentStory, setCurrentStory] = useState<any>(null),
+  updateCurrentStory = (story: StoryType) => { // StoryType
+    setCurrentStory(story)
+  }
+  
+
   return (
     <StoryContext.Provider
       value={{
         prompt,
         updatePrompt,
+        currentStory,
+        updateCurrentStory,
         stories,
         updateStories
       }}

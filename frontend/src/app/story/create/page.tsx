@@ -9,7 +9,6 @@ const Create = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleRouting = (url: string) => {
-    console.log('handle routing', url)
     router.push(url)
   }
 
@@ -25,7 +24,10 @@ const Create = () => {
   return (
     <>
       {isLoading && 
-        <Loading text='Please wait, your story is being crafted and will be available in 2 minutes.\n\nDid you know that once your story is ready, you can share it with your friends and family to enjoy together?' />
+        <Loading
+          firstLine='Please wait, your story is being crafted and will be available in 2 minutes.'
+          secondLine='Did you know that once your story is ready, you can share it with your friends and family to enjoy together?'
+        />
       }
 
       <div className='flex flex-col align-center justify-center h-[500px] px-[5%] gradient-bkg'>

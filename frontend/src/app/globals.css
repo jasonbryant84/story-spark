@@ -24,6 +24,9 @@ body {
 .gradient-bkg {
     background: radial-gradient(263.81% 740.81% at 8.26% 22.95%, #580A96 0%, #1F0062 26.04%, #18004D 47.86%, #0B0024 94.79%)
 }
+.radial-gradient-bkg {
+  background: radial-gradient(circle, #736994, #0B0024);
+}
 
 h1, h2, p, span {
   font-family: 'Montserrat', sans-serif !important;
@@ -63,4 +66,22 @@ h1, h2, p, span {
 .page-exit {
   transform: rotateY(0);
   opacity: 1;
+}
+
+.rotate-auto {
+  display: inline-block;
+  transform: rotate(0deg);
+  animation: auto-rotate 5s linear infinite;
+}
+
+@keyframes auto-rotate {
+  0% {
+    transform: rotate(20deg);
+  }
+  50% {
+    transform: rotate(-20deg);
+  }
+  100% {
+    transform: rotate(20deg);
+  }
 }

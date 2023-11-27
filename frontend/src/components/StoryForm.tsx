@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 
+import { UserContext } from '../contexts/UserContext'
 import { createStory } from '../api/opeanai'
 import { StoryContext } from '../contexts/StoryContext'
 import Button from './Button'
@@ -17,11 +18,14 @@ const StoryForm = (formInfo: StoryFormType) => {
   const {
     updatePrompt,
     updateStories,
+    updateCurrentStory,
     stories
   } = useContext(StoryContext)
 
   const [tempPrompt, setTempPrompt] = useState<string>('')
   const [error, setError] = useState<string>('')
+
+  const { user } = useContext(UserContext)
 
   useEffect(() => {
     if(stories?.length) {
@@ -44,7 +48,9 @@ const StoryForm = (formInfo: StoryFormType) => {
 
       handleCloseLoading(true)
 
-      const storyObj = await createStory({prompt: tempPrompt, sessionToken: 'undefined'})
+      const storyObj = await createStory({ prompt: tempPrompt, user })
+
+      updateCurrentStory(storyObj)
       
       updateStories({
         prompt: tempPrompt,
