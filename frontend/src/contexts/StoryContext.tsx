@@ -6,7 +6,8 @@ export interface StoryType {
   title: string;
   titleHyphenated: string;
   content: string;
-  pics?: string[];
+  contentArray: string[];
+  images: string[];
 }
 
 export interface StoryContextType {

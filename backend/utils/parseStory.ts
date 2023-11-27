@@ -10,5 +10,11 @@ export const parseStory = (initialStory: string) => {
     // skipping the title and the first \n
     const content = splitStory.slice(2).join('\n')
 
-    return { title, titleHyphenated, content }
+    // skipping the title and the first \n
+    const contentArray = splitStory.slice(2).filter(e => e.length > 0) // excluding ''
+
+    // Use Each paragraph as an image prompt
+    const imagePrompts = splitStory.slice(2).filter(e => e.length > 0) // excluding ''
+
+    return { title, titleHyphenated, content, contentArray, imagePrompts }
 }

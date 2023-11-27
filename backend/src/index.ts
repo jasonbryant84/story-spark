@@ -31,19 +31,33 @@ app.post('/api/create-story', cors(), async (req: express.Request, res: express.
 
     const completion = await openai.chat.completions.create({
         messages: [{"role": "system", "content": "You are telling a story to a young child."},
-            {"role": "user", "content": `Can you give me a short story for a child about ${prompt} and begin by giving me a title as well. Thanks!`}],
+            {"role": "user", "content": `Can you give me a short story for a child about ${prompt} and begin by giving me a title as well. Alos, please limit story to 4 paragraphs. Thanks!`}],
         model: "gpt-3.5-turbo",
     });
     
+
     const storyAsString = completion?.choices[0]?.message?.content as string
-    const { title, titleHyphenated, content } = parseStory(storyAsString)
+    const { title, titleHyphenated, content, contentArray, imagePrompts } = parseStory(storyAsString)
+
+    console.log('imagePrompts length: ', imagePrompts.length)
+    const images = await Promise.all(imagePrompts.map(async (imagePrompt) => {
+        const response = await openai.images.generate({
+            model: "dall-e-3",
+            prompt: imagePrompt,
+            n: 1,
+            size: '1024x1024', // 1024 is minimum for Dall-E 3
+        })
+        return response.data[0].url
+    }))
+
+    console.log('images', images)
 
     // Do some error checking for returning
     console.log(content)
     console.log('--------------------------')
     console.log(completion)
 
-    res.json({ title, titleHyphenated, content })
+    res.json({ title, titleHyphenated, content, contentArray, images })
 });
 
 app.listen(port, () => {

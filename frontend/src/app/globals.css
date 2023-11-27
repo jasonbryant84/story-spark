@@ -49,3 +49,18 @@ h1, h2, p, span {
 .error {
   color: #E12F6A;
 }
+
+
+.page-transition {
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.page-enter {
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+
+.page-exit {
+  transform: rotateY(0);
+  opacity: 1;
+}

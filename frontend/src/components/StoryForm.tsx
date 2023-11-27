@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 
 import { createStory } from '../api/opeanai'
 import { StoryContext } from '../contexts/StoryContext'
@@ -14,8 +13,6 @@ interface StoryFormType {
 }
 
 const StoryForm = (formInfo: StoryFormType) => {
-  const router = useRouter()
-
   const { className, handleCloseLoading, handleRouting } = formInfo
   const {
     updatePrompt,
@@ -32,6 +29,7 @@ const StoryForm = (formInfo: StoryFormType) => {
       const lastStory = stories[0]
       localStorage.setItem('stories', JSON.stringify({stories}))
 
+      // TODO: Fix this for nav back from created story
       handleRouting(`/story/${lastStory?.titleHyphenated}`)
     }
   }, [stories])

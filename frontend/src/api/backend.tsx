@@ -1,6 +1,6 @@
 interface StoryType {
     text: string;
-    pics: string[];
+    images: string[];
 }
 
 export const saveStory = async (storyInfo: StoryType, sessionToken: string) => {
