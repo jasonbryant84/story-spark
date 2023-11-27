@@ -49,7 +49,11 @@ app.post('/api/create-story', cors(), async (req: express.Request, res: express.
     const { title, titleHyphenated, content, contentArray, imagePrompts } = parseStory(storyAsString)
     
     // Creating folder(s) to store images - should go in a db
-    let folderPath = `./public/images/${user.username}`
+    let folderPath = `./public`
+    if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath)
+    folderPath += `/images`
+    if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath)
+    folderPath += `/${user.username}`
     if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath)
     folderPath += `/${titleHyphenated}`
     if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath)
