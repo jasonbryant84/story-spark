@@ -20,7 +20,7 @@ import { createSession, parseStory, downloadImage } from './utils'
 // Middleware
 app.use(express.json())
 
-const allowedOrigins = [FRONTEND_URL, 'https://story-spark-frontend.vercel.app']
+const allowedOrigins = [FRONTEND_URL, 'https://story-spark-frontend.vercel.app', '*']
 app.use(cors({
     origin: (origin: string, callback: Function) => {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -48,6 +48,8 @@ interface CreateStoryRequestType {
 }
 app.post('/api/create-story', cors(), async (req: express.Request, res: express.Response) => {
     const { prompt, user }: CreateStoryRequestType = req.body;
+
+    console.log('portugal', prompt, user)
 
     if (!user) return res.status(400).send({ message: 'User is required.' })
     if (!prompt) return res.status(400).send({ message: 'Prompt is required.' })
