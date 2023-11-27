@@ -10,12 +10,14 @@ function wait(seconds: number) {
 export const createStory = async (storyInfo: StoryType) => {
     const { prompt, user } = storyInfo
 
-    const host = process.env.NEXT_PUBLIC_BACKEND_HOST
+    let host = process.env.NEXT_PUBLIC_BACKEND_HOST
     const port = process.env.NEXT_PUBLIC_BACKEND_PORT
+
+    if (port) host += `:${port}`
 
     
     if (user?.sessionToken) {
-        return await fetch(`${host}:${port}/api/create-story`, {
+        return await fetch(`${host}/api/create-story`, {
             method: 'POST', // Change from GET to POST
             headers: {
                 'Content-Type': 'application/json',

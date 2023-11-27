@@ -23,8 +23,11 @@ const Book = (info: PageProps) => {
         })
     }
 
-    const host = process.env.NEXT_PUBLIC_BACKEND_HOST
+    let host = process.env.NEXT_PUBLIC_BACKEND_HOST
     const port = process.env.NEXT_PUBLIC_BACKEND_PORT
+
+    if (port) host += `:${port}`
+
     const path = `images/${user?.username}/${story?.titleHyphenated}`
 
     return (
@@ -36,7 +39,7 @@ const Book = (info: PageProps) => {
                   {story.contentArray[currentPage]}
                 </div>
                 <img
-                  src={`${host}:${port}/${path}/image-${currentPage}.png`}
+                  src={`${host}/${path}/image-${currentPage}.png`}
                   className='page-transition w-[50%]'
                   onClick={onNextPage}
                 />
