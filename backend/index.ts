@@ -19,7 +19,18 @@ import { createSession, parseStory, downloadImage } from './utils'
 
 // Middleware
 app.use(express.json())
-app.use(cors({ origin: FRONTEND_URL }))
+
+const allowedOrigins = [FRONTEND_URL, 'https://story-spark-frontend.vercel.app']
+app.use(cors({
+    origin: (origin: string, callback: Function) => {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}))
+
 app.use(express.static('public'))
 
 app.get('/healthcheck', cors(), async (req: express.Request, res: express.Response) => {
