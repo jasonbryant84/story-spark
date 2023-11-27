@@ -22,6 +22,10 @@ app.use(express.json())
 app.use(cors({ origin: FRONTEND_URL }))
 app.use(express.static('public'))
 
+app.get('/healthcheck', cors(), async (req: express.Request, res: express.Response) => {
+    res.json({ success: true })
+})
+
 app.post('/api/create-session', cors(), async (req: express.Request, res: express.Response) => {
     const sessionToken = await createSession()
     res.json({ sessionToken })
