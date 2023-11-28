@@ -13,7 +13,8 @@ export const createSession = async () => {
 
 export const createWebsocket = (user: any) => {
     const { sessionToken, username } = user
-    const socket = new WebSocket(`ws:${host}?token=${sessionToken}&username=${username}`)
+    const protocol = window.location.protocol.includes('https') ? 'wss' : 'ws'
+    const socket = new WebSocket(`${protocol}:${host}?token=${sessionToken}&username=${username}`)
 
     socket.onopen = () => {
         console.log('WebSocket connection established');
