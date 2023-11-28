@@ -6,7 +6,7 @@ import fs from 'fs'
 import OpenAI from "openai"
 const { OPENAI_API_KEY, FRONTEND_URL } = process.env
 const openai: OpenAI = new OpenAI({ // OpenAI
-    apiKey: OPENAI_API_KEY, // defaults to process.env["OPENAI_API_KEY"]
+    apiKey: OPENAI_API_KEY,
 })
 
 const timeout = require('connect-timeout')
@@ -54,13 +54,14 @@ app.post('/api/create-story', timeout('5m'), cors(), async (req: express.Request
     if (!user) return res.status(400).send({ message: 'User is required.' })
     if (!prompt) return res.status(400).send({ message: 'Prompt is required.' })
 
+    res.json({ prompt, user, key: OPENAI_API_KEY })
+
     // Generate story's text from user prompt
     const completion = await openai.chat.completions.create({
         messages: [{"role": "system", "content": "You are telling a story to a young child."},
             {"role": "user", "content": `Can you give me a short story for a child about ${prompt} and begin by giving me a title as well. Also, please limit story to 4 paragraphs. Thanks!`}],
         model: "gpt-3.5-turbo",
     })
-    res.json({ prompt, user, test: 'test' })
     
     // Parsing the story for consumption
     const storyAsString = completion?.choices[0]?.message?.content as string
