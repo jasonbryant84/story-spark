@@ -50,6 +50,7 @@ app.post('/api/create-story', timeout('5m'), cors(), async (req: express.Request
     const { prompt, user }: CreateStoryRequestType = req.body;
 
     console.log('portugal', prompt, user)
+    res.json({ prompt, user })
 
     if (!user) return res.status(400).send({ message: 'User is required.' })
     if (!prompt) return res.status(400).send({ message: 'Prompt is required.' })
