@@ -9,7 +9,9 @@ const Create = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleRouting = (url: string) => {
-    router.push(url)
+    setTimeout(() => {
+      router.push(url)
+    }, 2000)
   }
 
   const handleCloseLoading = (isLoading: boolean) => {
