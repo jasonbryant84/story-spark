@@ -20,7 +20,7 @@ import { createSession, parseStory, downloadImage } from './utils'
 // Middleware
 app.use(express.json())
 
-const allowedOrigins = [FRONTEND_URL, 'https://story-spark-frontend.vercel.app', '*']
+const allowedOrigins = [FRONTEND_URL, 'https://story-spark-frontend.vercel.app']
 app.use(cors({
     origin: (origin: string, callback: Function) => {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -37,7 +37,7 @@ app.get('/healthcheck', cors(), async (req: express.Request, res: express.Respon
     res.json({ success: true })
 })
 
-app.post('/api/create-session', timeout('5m'), cors(), async (req: express.Request, res: express.Response) => {
+app.post('/api/create-session', cors(), async (req: express.Request, res: express.Response) => {
     const sessionToken = await createSession()
     res.json({ sessionToken })
 })
@@ -46,7 +46,7 @@ interface CreateStoryRequestType {
     prompt: string;
     user: any;
 }
-app.post('/api/create-story', cors(), async (req: express.Request, res: express.Response) => {
+app.post('/api/create-story', timeout('5m'), cors(), async (req: express.Request, res: express.Response) => {
     const { prompt, user }: CreateStoryRequestType = req.body;
 
     console.log('portugal', prompt, user)
