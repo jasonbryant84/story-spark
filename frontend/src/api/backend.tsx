@@ -1,6 +1,10 @@
 let host = process.env.NEXT_PUBLIC_BACKEND_HOST
+let pureHost = host?.split('//')[1]
 const port = process.env.NEXT_PUBLIC_BACKEND_PORT
-if (port) host += `:${port}`
+if (port) {
+    host += `:${port}`
+    pureHost += `:${port}`
+}
 
 export const createSession = async () => {
     return await fetch(`${host}/api/create-session`, {
@@ -14,7 +18,7 @@ export const createSession = async () => {
 export const createWebsocket = (user: any) => {
     const { sessionToken, username } = user
     const protocol = window.location.protocol.includes('https') ? 'wss' : 'ws'
-    const socket = new WebSocket(`${protocol}:${host}?token=${sessionToken}&username=${username}`)
+    const socket = new WebSocket(`${protocol}:${pureHost}?token=${sessionToken}&username=${username}`)
 
     socket.onopen = () => {
         console.log('WebSocket connection established');

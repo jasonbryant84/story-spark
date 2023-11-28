@@ -5,7 +5,7 @@ import WebSocket from 'ws'
 
 // OpenAI
 import OpenAI from "openai"
-const { OPENAI_API_KEY, FRONTEND_URL } = process.env
+const { OPENAI_API_KEY, FRONTEND_URL, FRONTEND_PORT } = process.env
 const openai: OpenAI = new OpenAI({ // OpenAI
     apiKey: OPENAI_API_KEY,
 })
@@ -21,7 +21,7 @@ import { createSession, parseStory, downloadImage } from './utils'
 // Middleware
 app.use(express.json())
 
-const allowedOrigins = [FRONTEND_URL, 'https://story-spark-frontend.vercel.app']
+const allowedOrigins = [`${FRONTEND_URL}:${FRONTEND_PORT}`, 'https://story-spark-frontend.vercel.app']
 app.use(cors({
     origin: (origin: string, callback: Function) => {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
