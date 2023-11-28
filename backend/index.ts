@@ -50,7 +50,6 @@ app.post('/api/create-story', timeout('5m'), cors(), async (req: express.Request
     const { prompt, user }: CreateStoryRequestType = req.body;
 
     console.log('portugal', prompt, user)
-    res.json({ prompt, user })
 
     if (!user) return res.status(400).send({ message: 'User is required.' })
     if (!prompt) return res.status(400).send({ message: 'Prompt is required.' })
@@ -60,7 +59,8 @@ app.post('/api/create-story', timeout('5m'), cors(), async (req: express.Request
         messages: [{"role": "system", "content": "You are telling a story to a young child."},
             {"role": "user", "content": `Can you give me a short story for a child about ${prompt} and begin by giving me a title as well. Also, please limit story to 4 paragraphs. Thanks!`}],
         model: "gpt-3.5-turbo",
-    });
+    })
+    res.json({ prompt, user, test: 'test' })
     
     // Parsing the story for consumption
     const storyAsString = completion?.choices[0]?.message?.content as string
